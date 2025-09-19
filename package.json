@@ -1,0 +1,21 @@
+{
+  "name": "340firstproject",
+  "version": "1.0.0",
+  "description": "web application project",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "Helamã Barbour",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^17.2.2",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongodb": "^6.20.0"
+  }
+}
