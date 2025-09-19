@@ -35,7 +35,7 @@ getDatafunctions.getUsers = async (req, res) => {
 
 getDatafunctions.createUser = async (req, res) => {
     try {
-      const newUser = await getUserModel.post({
+      const newUser = await getUserModel.postUser({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
