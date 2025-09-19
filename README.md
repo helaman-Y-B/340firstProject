@@ -18,7 +18,8 @@ It will contain:
 
 A second collection will be created for the users:
 
-- User name
-- Birth date
+- First name
+- Last name
 - Email
-- Password
+- Age
+- City
