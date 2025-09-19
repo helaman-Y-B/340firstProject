@@ -13,4 +13,10 @@ async function getData(img_id) {
     }
 }
 
-module.exports = { getData };
+async function postImage(newImage) {
+    const db = await getDb();
+    const result = await db.collection('pictures').insertOne(newImage);
+    return { _id: result.insertedId };
+}
+
+module.exports = { getData, postImage };

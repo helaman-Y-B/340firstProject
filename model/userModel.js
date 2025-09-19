@@ -15,4 +15,10 @@ async function getData(user_id) {
     }
 }
 
-module.exports = { getData };
+async function postUser(newUser) {
+    const db = await getDb();
+    const result = await db.collection('users').insertOne(newUser);
+    return { _id: result.insertedId };
+}
+
+module.exports = { getData, postUser };

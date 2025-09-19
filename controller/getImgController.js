@@ -33,4 +33,22 @@ getDatafunctions.getImages = async (req, res) => {
 
 };
 
+getDatafunctions.postImage = async (req, res) => {
+    try {
+      const newImage = await getImgModel.postImage({
+            base64img: req.body.base64img,
+            title: req.body.title,
+            description: req.body.description,
+            owner: req.body.owner,
+            ownerContact: req.body.ownerContact,
+            dateCreated: req.body.dateCreated,
+            location: req.body.location
+        });
+        res.status(201).json(newImage);
+    } catch (error) {
+        console.error('Failed to post new image: ', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = getDatafunctions;

@@ -7,4 +7,6 @@ router.get('/:id', getImg.getImage);
 
 router.get('/', getImg.getImages);
 
+router.post('/', getImg.postImage);
+
 module.exports = router;
