@@ -3,35 +3,35 @@ const { body, validationResult } = require('express-validator');
 // Validation rules for user data
 const userValidationRules = [
     body('firstName').custom(value => {
-        if(!value) {
-            return Promise.reject('First name cannot be empty.')
-        
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('First name must contain 2 letters, no spaces or special characters.')
-        }
-    }).notEmpty(),
+    if(!value) {
+        return Promise.reject('First name cannot be empty.');
+    } else if(!/^[A-Za-z\s]{2,}$/.test(value)) {
+        return Promise.reject('First name must contain at least 2 letters and may include spaces.');
+    }
+    return true;
+    }),
 
     body('lastName').custom(value => {
-        if(!value) {
-            return Promise.reject('Last name cannot be empty.')
-        
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('Last name must contain 2 letters, no spaces or special characters.')
-        }
-    }).notEmpty(),
+    if(!value) {
+        return Promise.reject('Last name cannot be empty.');
+    } else if(!/^[A-Za-z\s]{2,}$/.test(value)) {
+        return Promise.reject('Last name must contain at least 2 letters and may include spaces.');
+    }
+    return true;
+    }),
 
     body('email').isEmail().withMessage('Invalid email format.').notEmpty(),
 
-    body('age').isInt({ min: 0, max: 120}).withMessage('Age must be a whole number between 0 and 120').notEmpty(),
+    body('age').isInt({ min: 0, max: 120}).withMessage('Age must be a whole number between 0 and 120. It also cannot be a string.').notEmpty(),
 
     body('city').custom(value => {
-        if(!value) {
-            return Promise.reject('City cannot be empty.')
-        
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('City must contain 2 letters, no spaces or special characters.')
-        }
-    }).notEmpty()
+    if(!value) {
+        return Promise.reject('City cannot be empty.');
+    } else if(!/^[A-Za-z\s]{2,}$/.test(value)) {
+        return Promise.reject('City must contain at least 2 letters and may include spaces.');
+    }
+    return true;
+    }),
 ]
 
 async function validateUser(req, res, next) {
