@@ -32,7 +32,7 @@ app.use("/deleteContent", deleteRoute);
 
 // Default route
 app.use("/", (req, res) => {
-    res.send("Project week 3")
+    res.send("Welcome to the Image and Users API. Visit /api-docs for API documentation.");
 });
 
 /*
