@@ -5,10 +5,10 @@
     "description": "An API to display a list images dowloaded and users created.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "three40firstproject.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api-docs": {
