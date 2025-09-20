@@ -29,4 +29,14 @@ async function updateUser(user_id, updatedUser) {
     }
 }
 
-module.exports = { getData, postUser, updateUser };
+async function deleteUser(user_id) {
+    try {
+        const db = await getDb();
+        return db.collection('users').deleteOne({_id: user_id});
+    } catch (error) {
+        console.error('Error deleting user in userModel: ', error);
+        throw new Error("Internal Server Error");
+    }
+}
+
+module.exports = { getData, postUser, updateUser, deleteUser };

@@ -9,6 +9,7 @@ const swaggerDocument = require('./swagger.json');
 const getImageRoute = require('./route/getImage');
 const getUserRoute = require('./route/getUser');
 const updateRoute = require('./route/updateContent');
+const deleteRoute = require('./route/deleteContent');
 
 const PORT = process.env.PORT || 8080;
 
@@ -27,6 +28,7 @@ app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 app.use("/getImages", getImageRoute);
 app.use("/getUsers", getUserRoute);
 app.use("/updateContent", updateRoute);
+app.use("/deleteContent", deleteRoute);
 
 // Default route
 app.use("/", (req, res) => {

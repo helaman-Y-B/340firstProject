@@ -29,4 +29,14 @@ async function updateImg(img_id, updatedImg) {
     }
 }
 
-module.exports = { getData, postImage, updateImg };
+async function deleteImg(img_id) {
+    try {
+        const db = await getDb();
+        return db.collection('pictures').deleteOne({_id: img_id});
+    } catch (error) {
+        console.error('Error deleting image in userModel: ', error);
+        throw new Error("Internal Server Error");
+    }
+}
+
+module.exports = { getData, postImage, updateImg, deleteImg };
