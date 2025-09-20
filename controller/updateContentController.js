@@ -7,6 +7,9 @@ async function getContent(req, res) {
     res.send("To update content insert /updateImage/:id or /updateUser/:id after the URL.");
 }
 
+/*
+    * Update user data by ID
+*/
 async function updateUser(req, res) {
     try {
         const user_id = new objectId(req.params.id);
@@ -28,6 +31,9 @@ async function updateUser(req, res) {
     }
 }
 
+/*
+    * Update image data by ID
+*/
 async function updateImg(req, res) {
     try {
         const img_id = new objectId(req.params.id);

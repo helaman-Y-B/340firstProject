@@ -1,5 +1,8 @@
 const { getDb } = require('../mongodb/connection')
 
+/*
+    * Get user data by ID or all users if no ID is provided
+*/
 async function getData(user_id) {
     
     const db = await getDb();
@@ -13,12 +16,18 @@ async function getData(user_id) {
     }
 }
 
+/*
+    * Create new user 
+*/
 async function postUser(newUser) {
     const db = await getDb();
     const result = await db.collection('users').insertOne(newUser);
     return { _id: result.insertedId };
 }
 
+/*
+    * Update user data by ID
+*/
 async function updateUser(user_id, updatedUser) {
     try {
         const db = await getDb();
@@ -29,6 +38,9 @@ async function updateUser(user_id, updatedUser) {
     }
 }
 
+/*
+    * Delete user data by ID  
+*/
 async function deleteUser(user_id) {
     try {
         const db = await getDb();

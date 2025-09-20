@@ -35,6 +35,9 @@ app.use("/", (req, res) => {
     res.send("Project week 3")
 });
 
+/*
+    * Connect to MongoDB and start the server
+*/
 connectToDb((error) => {
     if (!error) {
         console.log('Connected to MongoDB');

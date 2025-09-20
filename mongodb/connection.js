@@ -5,6 +5,9 @@ const uri = process.env.MONGO_URI;
 
 let db;
 
+/*
+    * Connect to MongoDB  
+*/
 async function connectToDb(callback) {
     try {
         if (db) {
@@ -20,6 +23,9 @@ async function connectToDb(callback) {
     }
 }
 
+/*
+    * Get the database instance  
+*/
 function getDb() {
     if (!db) {
         throw new Error('Database not connected. Call connectToDb first.');

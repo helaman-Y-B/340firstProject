@@ -3,6 +3,9 @@ const getImgModel = require('../model/imgModel');
 
 const getDatafunctions = {}
 
+/*
+    * Get image data by ID
+*/
 getDatafunctions.getImage = async (req, res) => {
 
     const img_id = new objectId(req.params.id);
@@ -19,6 +22,9 @@ getDatafunctions.getImage = async (req, res) => {
 
 };
 
+/*
+    * Get all images from database
+*/
 getDatafunctions.getImages = async (req, res) => {
 
     try {
@@ -33,6 +39,9 @@ getDatafunctions.getImages = async (req, res) => {
 
 };
 
+/*
+    * Create new image
+*/
 getDatafunctions.postImage = async (req, res) => {
     try {
       const newImage = await getImgModel.postImage({

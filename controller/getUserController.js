@@ -3,6 +3,9 @@ const getUserModel = require('../model/userModel');
 
 const getDatafunctions = {}
 
+/*
+    * Get user data by ID
+*/
 getDatafunctions.getUser = async (req, res) => {
 
     const user_id = new objectId(req.params.id);
@@ -19,6 +22,9 @@ getDatafunctions.getUser = async (req, res) => {
 
 };
 
+/*
+    * Get all users from database
+*/
 getDatafunctions.getUsers = async (req, res) => {
 
     try {
@@ -33,6 +39,9 @@ getDatafunctions.getUsers = async (req, res) => {
 
 };
 
+/*
+    * Create new user
+*/
 getDatafunctions.createUser = async (req, res) => {
     try {
       const newUser = await getUserModel.postUser({

@@ -7,6 +7,9 @@ async function getContent(req, res) {
     res.send("To delete content insert /deleteImage/:id or /deleteUser/:id after the URL.");
 }
 
+/*
+    * Delete user data by ID
+*/
 async function deleteUser(req, res) {
     try {
         const user_id = new objectId(req.params.id);
@@ -21,6 +24,9 @@ async function deleteUser(req, res) {
     }
 }
 
+/*
+    * Delete image data by ID
+*/
 async function deleteImg(req, res) {
     try {
         const img_id = new objectId(req.params.id);

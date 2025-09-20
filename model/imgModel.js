@@ -1,5 +1,8 @@
 const { getDb } = require('../mongodb/connection')
 
+/*
+    * Get image data by ID or all images if no ID is provided
+*/
 async function getData(img_id) {
     
     const db = await getDb();
@@ -13,12 +16,18 @@ async function getData(img_id) {
     }
 }
 
+/*
+    * Create new image
+*/
 async function postImage(newImage) {
     const db = await getDb();
     const result = await db.collection('pictures').insertOne(newImage);
     return { _id: result.insertedId };
 }
 
+/*
+    * Update image data by ID 
+*/
 async function updateImg(img_id, updatedImg) {
     try {
         const db = await getDb();
@@ -29,6 +38,9 @@ async function updateImg(img_id, updatedImg) {
     }
 }
 
+/*
+    * Delete image data by ID
+*/
 async function deleteImg(img_id) {
     try {
         const db = await getDb();
