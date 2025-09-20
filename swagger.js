@@ -6,8 +6,8 @@ const doc = {
         description: 'An API to display a list images dowloaded and users created.'
     },
     //host: 'localhost:8080',
-    host: 'solid-computing-machine-67p9r5wv65x2r7p9-8080.app.github.dev',
-    //host: 'cse341-project1-vup3.onrender.com',
+    //host: 'solid-computing-machine-67p9r5wv65x2r7p9-8080.app.github.dev',
+    host: 'three40firstproject.onrender.com',
     schemes: ['https']
     //schemes: ['http']
 }
