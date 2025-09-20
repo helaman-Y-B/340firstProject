@@ -19,4 +19,14 @@ async function postImage(newImage) {
     return { _id: result.insertedId };
 }
 
-module.exports = { getData, postImage };
+async function updateImg(img_id, updatedImg) {
+    try {
+        const db = await getDb();
+        return db.collection('pictures').updateOne({_id: img_id}, { $set: updatedImg });
+    } catch (error) {
+        console.error('Error updating image in imgModel: ', error);
+        throw new Error("Internal Server Error");
+    }
+}
+
+module.exports = { getData, postImage, updateImg };

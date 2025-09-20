@@ -19,4 +19,14 @@ async function postUser(newUser) {
     return { _id: result.insertedId };
 }
 
-module.exports = { getData, postUser };
+async function updateUser(user_id, updatedUser) {
+    try {
+        const db = await getDb();
+        return db.collection('users').updateOne({_id: user_id}, { $set: updatedUser });
+    } catch (error) {
+        console.error('Error updating user in userModel: ', error);
+        throw new Error("Internal Server Error");
+    }
+}
+
+module.exports = { getData, postUser, updateUser };

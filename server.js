@@ -5,8 +5,10 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
+// Importing routes
 const getImageRoute = require('./route/getImage');
 const getUserRoute = require('./route/getUser');
+const updateRoute = require('./route/updateContent');
 
 const PORT = process.env.PORT || 8080;
 
@@ -21,10 +23,12 @@ app.use(Express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
+// Using routes
 app.use("/getImages", getImageRoute);
-
 app.use("/getUsers", getUserRoute);
+app.use("/updateContent", updateRoute);
 
+// Default route
 app.use("/", (req, res) => {
     res.send("Project week 3")
 });
