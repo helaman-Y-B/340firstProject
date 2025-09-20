@@ -48,9 +48,9 @@ const imageValidationRule = [
     body('base64img').custom(value => {
         if(!value) {
             return Promise.reject('Image data cannot be empty.')
-        
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('First name must contain 2 letters, no spaces or special characters.')
+
+        } else if(!/^data:image\/(png|jpg|jpeg|gif);base64,[A-Za-z0-9+/=]+$/.test(value)) {
+            return Promise.reject('Invalid image format. Please upload a PNG, JPG, JPEG, or GIF image.')
         }
     }).notEmpty(),
 
@@ -58,8 +58,8 @@ const imageValidationRule = [
         if(!value) {
             return Promise.reject('Title cannot be empty.')
         
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('Title must contain 2 letters, no spaces or special characters.')
+        } else if(!/^[A-Za-z0-9\s.,:;'"!?@#&()\-]{2,}$/.test(value)) {
+            return Promise.reject('Title must contain 2 characters')
         }
     }).notEmpty(),
 
@@ -67,8 +67,8 @@ const imageValidationRule = [
         if(!value) {
             return Promise.reject('Description cannot be empty.')
         
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('Description must contain 2 letters, no spaces or special characters.')
+        } else if(!/^[A-Za-z0-9\s.,:;'"!?@#&()\-]{2,}$/.test(value)) {
+            return Promise.reject('Description must contain 2 characters')
         }
     }).notEmpty(),
 
@@ -76,21 +76,21 @@ const imageValidationRule = [
         if(!value) {
             return Promise.reject('Owner cannot be empty.')
         
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
+        } else if(!/^[A-Za-z\s]{2,}$/.test(value)) {
             return Promise.reject('Owner must contain 2 letters, no spaces or special characters.')
         }
     }).notEmpty(),
 
-    body('ownerContact').custom(value => {
+    body('ownerContact').isEmail().withMessage('Owner contact must be a valid email address.').notEmpty(),
+
+    body('dateCreated').custom(value => {
         if(!value) {
-            return Promise.reject('Owner contact cannot be empty.')
+            return Promise.reject('Birthday cannot be empty.')
         
-        } else if(!/^[A-Za-z]{2,}$/.test(value)) {
-            return Promise.reject('Owner contact must contain 2 letters, no spaces or special characters.')
+        } else if(!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return Promise.reject('The date of the picture must be in the format YYYY-MM-DD.')
         }
     }).notEmpty(),
-
-    body('dateCreated').isISO8601().withMessage('Date must be in ISO 8601 format (YYYY-MM-DD)').notEmpty(),
 
     body('location').custom(value => {
         if(!value) {
@@ -102,7 +102,7 @@ const imageValidationRule = [
     }).notEmpty()
 ]
 
-async function validateUser(req, res, next) {
+async function validateImage(req, res, next) {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -111,4 +111,4 @@ async function validateUser(req, res, next) {
     next();
 }
 
-module.exports = { userValidationRules, validateUser };
+module.exports = { userValidationRules, imageValidationRule, validateUser, validateImage };
