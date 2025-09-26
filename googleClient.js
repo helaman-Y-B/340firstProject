@@ -18,6 +18,9 @@ const redirect_url = process.env.GOOGLE_OAUTH_REDIRECT_URL; // Path to OAuth 2.0
   redirect_url
 );
 
+/*
+  * Redirect the user to Google's OAuth 2.0 server to initiate the authentication and authorization process.
+*/
 async function getAuthenticatedClient(req, res) {
   try {
     const authUrl = await oauth2Client.generateAuthUrl({
@@ -31,6 +34,9 @@ async function getAuthenticatedClient(req, res) {
   }
 }
 
+/*
+  * Handle the OAuth 2.0 server response and create a user in the database if they don't already exist.
+*/
 async function googleCallback(req, res) {
   try {
     const { code } = req.query;
