@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Express = require('express');
 const { connectToDb } = require('./mongodb/connection');
+const { getAuthenticatedClient, googleCallback } = require('./googleClient');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -29,6 +30,10 @@ app.use("/getImages", getImageRoute);
 app.use("/getUsers", getUserRoute);
 app.use("/updateContent", updateRoute);
 app.use("/deleteContent", deleteRoute);
+
+// Authentication route
+app.get('/login', getAuthenticatedClient);
+app.get('/api/session/oauth/google', googleCallback);
 
 // Default route
 app.use("/", (req, res) => {
