@@ -58,6 +58,8 @@ async function googleCallback(req, res) {
     };
     req.session.isAuthenticated = true;
 
+    //console.log('Session created/updated:', req.session)
+
     // Check if the user already exists in the database.
     const db = await getDb();
     const existingUser = await db.collection('users').findOne({ email });
@@ -65,10 +67,16 @@ async function googleCallback(req, res) {
     if (!existingUser) {
       await db.collection('users').insertOne({ given_name, family_name, email, locale });
       console.log('User created:', given_name, family_name);
-      res.send('User signed in and created.');
+      res.render('main', {
+                title: 'Main Page',
+                user: req.session.user,
+              });
     } else {
       console.log('User already exists:', email);
-      res.send('User signed in.');
+      res.render('main', {
+                title: 'Main Page',
+                user: req.session.user,
+              });
     } 
   } catch (error) {
     console.error('Error during Google sign-in:', error);

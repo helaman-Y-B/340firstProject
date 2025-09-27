@@ -17,7 +17,9 @@
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
     "cors": "^2.8.5",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
     "express-validator": "^7.2.1",
     "googleapis": "^105.0.0",

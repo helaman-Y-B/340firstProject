@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Express = require('express');
+const expressLayouts = require('express-ejs-layouts')
 const { connectToDb } = require('./mongodb/connection');
 const { getAuthenticatedClient, googleCallback } = require('./googleClient');
 const cors = require('cors');
@@ -8,6 +9,7 @@ const swaggerDocument = require('./swagger.json');
 const session = require('express-session');
 
 // Importing routes
+const mainRoute = require('./route/mainRoute');
 const getImageRoute = require('./route/getImage');
 const getUserRoute = require('./route/getUser');
 const updateRoute = require('./route/updateContent');
@@ -23,16 +25,21 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 48, // 2 days
-        secure: true, // Set to true if using HTTPS or false for HTTP
+        secure: false, // Set to true if using HTTPS or false for HTTP
         httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
         name: "session", // Custom name for the session cookie
-    },
+    }
 }));
 
 app.use(cors());
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
+
+// Setting up EJS
+app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', './layouts/layout');
 
 // api-docs route
 app.use('/api-docs', swaggerUi.serve);
@@ -49,9 +56,7 @@ app.get('/login', getAuthenticatedClient);
 app.get('/api/session/oauth/google', googleCallback);
 
 // Default route
-app.use("/", (req, res) => {
-    res.send("Welcome to the Image and Users API. Visit /api-docs for API documentation.");
-});
+app.use("/", mainRoute);
 
 /*
     * Connect to MongoDB and start the server
