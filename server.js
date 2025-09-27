@@ -5,6 +5,7 @@ const { getAuthenticatedClient, googleCallback } = require('./googleClient');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const session = require('express-session');
 
 // Importing routes
 const getImageRoute = require('./route/getImage');
@@ -15,6 +16,18 @@ const deleteRoute = require('./route/deleteContent');
 const PORT = process.env.PORT || 8080;
 
 const app = Express();
+
+app.use(session({
+    secret: process.env.CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 48, // 2 days
+        secure: true, // Set to true if using HTTPS or false for HTTP
+        httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+        name: "session", // Custom name for the session cookie
+    },
+}));
 
 app.use(cors());
 
