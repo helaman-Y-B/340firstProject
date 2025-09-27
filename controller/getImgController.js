@@ -33,10 +33,15 @@ getDatafunctions.getImage = async (req, res) => {
 getDatafunctions.getImages = async (req, res) => {
 
     try {
-        const data = await getImgModel.getData();
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to view image data.' });
+        } else {
+            const data = await getImgModel.getData();
 
-        res.setHeader('Content-Type', 'application/json');
-        res.json(data);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(data);
+        }
     } catch (error) {
         console.error('Error when trying to fetch data in imgModel file: ', error)
         throw new Error('Internal server error: Could not fetch data from DB.')
@@ -49,16 +54,21 @@ getDatafunctions.getImages = async (req, res) => {
 */
 getDatafunctions.postImage = async (req, res) => {
     try {
-      const newImage = await getImgModel.postImage({
-            base64img: req.body.base64img,
-            title: req.body.title,
-            description: req.body.description,
-            owner: req.body.owner,
-            ownerContact: req.body.ownerContact,
-            dateCreated: req.body.dateCreated,
-            location: req.body.location
-        });
-        res.status(201).json(newImage);
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to post a new image.' });
+        } else {
+            const newImage = await getImgModel.postImage({
+                base64img: req.body.base64img,
+                title: req.body.title,
+                description: req.body.description,
+                owner: req.body.owner,
+                ownerContact: req.body.ownerContact,
+                dateCreated: req.body.dateCreated,
+                location: req.body.location
+            });
+            res.status(201).json(newImage);
+        }
     } catch (error) {
         console.error('Failed to post new image: ', error);
         res.status(500).json({ error: 'Internal Server Error' });

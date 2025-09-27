@@ -54,14 +54,19 @@ getDatafunctions.getUsers = async (req, res) => {
 */
 getDatafunctions.createUser = async (req, res) => {
     try {
-      const newUser = await getUserModel.postUser({
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to create a new user.' });
+        } else {
+            const newUser = await getUserModel.postUser({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             age: req.body.age,
             city: req.body.city
-        });
-        res.status(201).json(newUser);
+            });
+            res.status(201).json(newUser);
+        }
     } catch (error) {
         console.error('Failed to create new user: ', error);
         res.status(500).json({ error: 'Internal Server Error' });

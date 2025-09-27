@@ -41,20 +41,24 @@ async function updateUser(req, res) {
 */
 async function updateImg(req, res) {
     try {
-        const img_id = new objectId(req.params.id);
-        const updatedImg = {
-            base64img: req.body.base64img,
-            title: req.body.title,
-            description: req.body.description,
-            owner: req.body.owner,
-            ownerContact: req.body.ownerContact,
-            dateCreated: req.body.dateCreated,
-            location: req.body.location
-        };
-
-        const updatedData = await imgModel.updateContact(img_id, updatedImg);
-        res.setHeader('Content-Type', 'application/json');
-        res.json(updatedData);
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to update image data.' });
+        } else {
+            const img_id = new objectId(req.params.id);
+            const updatedImg = {
+                base64img: req.body.base64img,
+                title: req.body.title,
+                description: req.body.description,
+                owner: req.body.owner,
+                ownerContact: req.body.ownerContact,
+                dateCreated: req.body.dateCreated,
+                location: req.body.location
+            };
+            const updatedData = await imgModel.updateContact(img_id, updatedImg);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(updatedData);
+        }
 
     } catch (error) {
         console.error('Failed to update image: ', error);

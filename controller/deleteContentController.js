@@ -34,11 +34,16 @@ async function deleteUser(req, res) {
 */
 async function deleteImg(req, res) {
     try {
-        const img_id = new objectId(req.params.id);
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to delete image data.' });
+        } else {
+            const img_id = new objectId(req.params.id);
 
-        const deletedData = await imgModel.updateContact(img_id);
-        res.setHeader('Content-Type', 'application/json');
-        res.json(deletedData);
+            const deletedData = await imgModel.updateContact(img_id);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(deletedData);
+        }
 
     } catch (error) {
         console.error('Failed to delete image: ', error);
