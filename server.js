@@ -2,7 +2,6 @@ require('dotenv').config();
 const Express = require('express');
 const expressLayouts = require('express-ejs-layouts')
 const { connectToDb } = require('./mongodb/connection');
-const { getAuthenticatedClient, googleCallback } = require('./googleClient');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -14,11 +13,13 @@ const getImageRoute = require('./route/getImage');
 const getUserRoute = require('./route/getUser');
 const updateRoute = require('./route/updateContent');
 const deleteRoute = require('./route/deleteContent');
+const loginRoute = require('./route/loginRoute');
 
 const PORT = process.env.PORT || 8080;
 
 const app = Express();
 
+// Setting up session middleware
 app.use(session({
     secret: process.env.CLIENT_SECRET,
     resave: false,
@@ -27,7 +28,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 48, // 2 days
         secure: false, // Set to true if using HTTPS or false for HTTP
         httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-        name: "session", // Custom name for the session cookie
+        name: 'session', // Custom name for the session cookie
     }
 }));
 
@@ -46,17 +47,14 @@ app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 // Using routes
-app.use("/getImages", getImageRoute);
-app.use("/getUsers", getUserRoute);
-app.use("/updateContent", updateRoute);
-app.use("/deleteContent", deleteRoute);
-
-// Authentication route
-app.get('/login', getAuthenticatedClient);
-app.get('/api/session/oauth/google', googleCallback);
+app.use('/getImages', getImageRoute);
+app.use('/getUsers', getUserRoute);
+app.use('/updateContent', updateRoute);
+app.use('/deleteContent', deleteRoute);
+app.use('/login', loginRoute);
 
 // Default route
-app.use("/", mainRoute);
+app.use('/', mainRoute);
 
 /*
     * Connect to MongoDB and start the server

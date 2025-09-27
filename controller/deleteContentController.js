@@ -12,11 +12,16 @@ async function getContent(req, res) {
 */
 async function deleteUser(req, res) {
     try {
-        const user_id = new objectId(req.params.id);
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to delete user data.' });
+        } else {
+            const user_id = new objectId(req.params.id);
 
-        const deletedData = await userModel.deleteUser(user_id);
-        res.setHeader('Content-Type', 'application/json');
-        res.json(deletedData);
+            const deletedData = await userModel.deleteUser(user_id);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(deletedData);
+        }
 
     } catch (error) {
         console.error('Failed to delete user: ', error);

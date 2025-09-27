@@ -2,11 +2,11 @@
     <% if (user) { %>
         <div id="user-info">
             <span>Welcome, <%= user.given_name %>!</span>
-            <a href="/logout">Logout</a>
+            <a href="/login/logout">Logout</a>
         </div>
-    <% } else { %>
-        <div id="login">
-            <a href="/login">Login</a>
-        </div>
-    <% } %>
+        <% } else { %>
+            <div id="login">
+                <p>Please log in to access all features.</p>
+            </div>
+            <% } %>
 </header>

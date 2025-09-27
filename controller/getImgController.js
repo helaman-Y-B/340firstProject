@@ -11,10 +11,15 @@ getDatafunctions.getImage = async (req, res) => {
     const img_id = new objectId(req.params.id);
 
     try {
-        const data = await getImgModel.getData(img_id);
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to view image data.' });
+        } else {
+            const data = await getImgModel.getData(img_id);
 
-        res.setHeader('Content-Type', 'application/json');
-        res.json(data);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(data);
+        }
     } catch (error) {
         console.error('Error when trying to fetch data in imgModel file: ', error)
         throw new Error('Internal server error: Could not fetch data from DB.')

@@ -12,18 +12,23 @@ async function getContent(req, res) {
 */
 async function updateUser(req, res) {
     try {
-        const user_id = new objectId(req.params.id);
-        const updatedUser = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            age: req.body.age,
-            city: req.body.city
-        };
+        if (!req.session.user) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(401).json({ error: 'Unauthorized: Please log in to update user data.' });
+        } else {
+            const user_id = new objectId(req.params.id);
+            const updatedUser = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                age: req.body.age,
+                city: req.body.city
+            };
 
-        const updatedData = await userModel.updateUser(user_id, updatedUser);
-        res.setHeader('Content-Type', 'application/json');
-        res.json(updatedData);
+            const updatedData = await userModel.updateUser(user_id, updatedUser);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(updatedData);
+        }
 
     } catch (error) {
         console.error('Failed to update user: ', error);
